@@ -7,14 +7,14 @@ describe "Static Pages" do
   describe "Home page" do
     before { visit root_path }
 
-    it { should have_selector('title', text: "AskSG") }
+    it { should have_selector('title', text: full_title('')) }
     it { should have_selector('h1',    text: "AskSG") }
   end
 
   describe "About page" do
     before { visit about_path }
 
-    it { should have_selector('title', text: "AskSG | About") }
+    it { should have_selector('title', text: full_title('About')) }
     it { should have_selector('h1',    text: "About") }
   end
 
@@ -24,7 +24,7 @@ describe "Static Pages" do
     page.should have_selector 'title', text: full_title('About')
     click_link "Sign up"
     page.should have_selector 'title', text: full_title('Sign up')
-    click_link "AskSG"
-    page.should have_selector 'h1', text: "AskSG"
+    click_link full_title('')
+    page.should have_selector 'h1', text: full_title('')
   end  
 end
