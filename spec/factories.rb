@@ -5,4 +5,9 @@ FactoryGirl.define do
     password "foobar"
     password_confirmation "foobar"
   end
+
+  factory :question do
+    content "Lorem ipsum"
+    user
+  end
 end

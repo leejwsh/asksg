@@ -27,6 +27,7 @@ describe User do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:authenticate) }
+  it { should respond_to(:questions) }
 
   it { should be_valid }
 
@@ -115,5 +116,29 @@ describe User do
   describe "remember token" do
     before { @user.save }
     its(:remember_token) { should_not be_blank }
+  end
+
+  describe "question associations" do
+
+    before { @user.save }
+    let!(:older_question) do 
+      FactoryGirl.create(:question, user: @user, created_at: 1.day.ago)
+    end
+    let!(:newer_question) do
+      FactoryGirl.create(:question, user: @user, created_at: 1.hour.ago)
+    end
+
+    it "should have the right questions in the right order" do
+      @user.questions.should == [newer_question, older_question]
+    end
+
+    it "should destroy associated questions" do
+      questions = @user.questions.dup
+      @user.destroy
+      questions.should_not be_empty
+      questions.each do |question|
+        Question.find_by_id(question.id).should be_nil
+      end
+    end
   end
 end
