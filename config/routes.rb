@@ -2,6 +2,7 @@ Asksg::Application.routes.draw do
 
   resources :users
   resources :sessions,  only: [:new, :create, :destroy]
+  resources :answers,  only: [:create, :destroy]
   resources :questions
 
   root to: 'static_pages#home'

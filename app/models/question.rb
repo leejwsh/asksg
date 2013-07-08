@@ -13,6 +13,7 @@
 class Question < ActiveRecord::Base
   attr_accessible :title, :content
   belongs_to :user
+  has_many :answers, dependent: :destroy
 
   validates :user_id, presence: true
   validates :title,   presence: true

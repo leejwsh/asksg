@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_filter :signed_in_user
+  before_filter :signed_in_user, only: [:new, :create, :destroy]
 
   def new
     @question = Question.new
@@ -17,6 +17,8 @@ class QuestionsController < ApplicationController
 
   def show
     @question = Question.find(params[:id])
+    @answers = @question.answers.paginate(page: params[:page])
+    @answer = @question.answers.build if signed_in?
   end
 
   def destroy

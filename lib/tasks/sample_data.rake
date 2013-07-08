@@ -20,5 +20,14 @@ namespace :db do
       content = Faker::Lorem.sentences(5)
       users.each { |user| user.questions.create!(title: title, content: content) }
     end
+    questions = Question.all(limit: 8)
+    3.times do |n|
+      content = Faker::Lorem.sentences(3)
+      questions.each do |question| 
+        answer = question.answers.build(content: content)
+        answer.user = users[n]
+        answer.save!
+      end
+    end
   end
 end
