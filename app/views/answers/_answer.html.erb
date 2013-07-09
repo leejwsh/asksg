@@ -1,14 +1,13 @@
+<% # Usage: render @answers, bool title, bool content, bool user %>
+<% # E.g. : render @answers, title: true                         %>
+
 <li>
   <span class="content">
-  	<% if defined? title %>
-  	  <%= link_to answer.question.title, answer.question %>
-  	<% end %>  
-  	<% if defined? content %>
-  	  <%= simple_format(answer.content) %>
-  	<% end %>  
+  	<%= link_to answer.question.title, answer.question if defined? title %> 
+  	<%= simple_format(answer.content) if defined? content %>
   </span>
   <span class="timestamp">
-    <%= link_to answer.user.name, answer.user %> 
-	answered <%= time_ago_in_words(answer.created_at) %> ago.
+    <%= link_to answer.user.name, answer.user if defined? user %>
+    answered <%= time_ago_in_words(answer.created_at) %> ago.
   </span>
 </li>

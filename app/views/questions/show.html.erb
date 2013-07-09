@@ -4,21 +4,28 @@
 <div class="row">
   <div class="span12">
 	
-	<p><%= simple_format(@question.content) %></p>
-	<p>
-	  <%= link_to @question.user.name, @question.user %> 
-	  asked <%= time_ago_in_words(@question.created_at) %> ago.
-	</p>
+	<div class="well">
+	  <p><%= simple_format(@question.content) %></p>
+	  <p>
+	    <%= link_to @question.user.name, @question.user %> 
+	    asked <%= time_ago_in_words(@question.created_at) %> ago.
+	  </p>
+	</div>
+
+	<hr>
 	
 	<% if @question.answers.any? %>
 	  <h3><%= pluralize(@question.answers.count, "Answer") %></h3>
 	  <ol class="answers">
-	    <%= render @answers, content: true %>
+	    <%= render @answers, content: true, user: true %>
 	  </ol>
 	  <%= will_paginate @answers %>
 	<% end %>
 
+	<hr>
+
     <% if signed_in? %>
+      <h3>Your Answer</h2>
 	  <%= form_for(@answer) do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
 
