@@ -1,11 +1,13 @@
-<h1><%= APP_CONFIG['site_name'] %></h1>
+<% if params[:tag] %>
+  <p>Results for <strong>#<%= params[:tag] %></strong></p>
+<% end %>
 
 <div class="row">
   <div class="span12">
 	<% if @questions.any? %>
 	  <h3>Questions (<%= @questions.count %>)</h3>
 	  <ol class="questions">
-	    <%= render @questions %>
+	    <%= render @questions, user: true %>
 	  </ol>
 	  <%= will_paginate @questions %>
 	<% end %>

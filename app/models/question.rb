@@ -11,7 +11,9 @@
 #
 
 class Question < ActiveRecord::Base
-  attr_accessible :title, :content
+  attr_accessible :title, :content, :tag_list
+  acts_as_taggable
+
   belongs_to :user
   has_many :answers, dependent: :destroy
 

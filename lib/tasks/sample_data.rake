@@ -15,10 +15,14 @@ namespace :db do
                    password_confirmation: password)
     end
     users = User.all(limit: 6)
-    10.times do
+    dictionary = ["maths", "english", "science", "astrology", "chinese", "malay"]
+    100.times do |n|
       title = Faker::Lorem.sentence()
       content = Faker::Lorem.sentences(5)
-      users.each { |user| user.questions.create!(title: title, content: content) }
+      tag_list = dictionary.shuffle.take(3).join(', ')
+      users[n % 6].questions.create!(title: title,
+                                     content: content,
+                                     tag_list: tag_list)
     end
     questions = Question.all(limit: 8)
     3.times do |n|

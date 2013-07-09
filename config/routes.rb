@@ -1,4 +1,5 @@
 Asksg::Application.routes.draw do
+  get 'tags/:tag', to: 'static_pages#home', as: :tag
 
   resources :users
   resources :sessions,  only: [:new, :create, :destroy]
