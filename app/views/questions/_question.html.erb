@@ -1,5 +1,8 @@
-<% # Usage: render @questions, bool user  %>
+<% # Usage: render @questions, show flags %>
 <% # E.g. : render @questions, user: true %>
+<% # List of flags: %>
+<% #   - user       %>
+<% #   - vote       %>
 
 <li>
   <span class="content">
@@ -13,5 +16,6 @@
   <span class="timestamp">
     <%= link_to question.user.name, user_path(question.user) if defined? user %>
     posted <%= time_ago_in_words(question.created_at) %> ago.
+    | <%= pluralize question.reputation_for(:votes).to_i, "vote" %>
   </span>
 </li>
