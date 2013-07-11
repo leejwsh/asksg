@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
   before_filter :signed_in_user
+  before_filter :not_own_answer, only: [:vote]
 
   def create
   	@question = Question.find(params[:answer][:question_id])
@@ -16,4 +17,18 @@ class AnswersController < ApplicationController
 
   def destroy
   end
+
+  def vote
+    value = params[:type] == "up" ? 1 : -1
+    @answer = Answer.find(params[:id])
+    @answer.add_or_update_evaluation(:votes, value, current_user)
+    redirect_to :back, notice: "Thank you for voting"
+  end
+
+  private
+
+    def not_own_answer
+      @answer = Answer.find(params[:id])
+      redirect_to(root_path) if current_user?(@answer.user)
+    end
 end

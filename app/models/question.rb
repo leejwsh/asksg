@@ -17,6 +17,8 @@ class Question < ActiveRecord::Base
   belongs_to :user
   has_many :answers, dependent: :destroy
 
+  has_reputation :votes, source: :user
+
   validates :user_id, presence: true
   validates :title,   presence: true
   validates :content, presence: true

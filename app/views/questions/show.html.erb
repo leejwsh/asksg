@@ -13,6 +13,11 @@
 	  <p>
 	    <%= link_to @question.user.name, @question.user %> 
 	    asked <%= time_ago_in_words(@question.created_at) %> ago.
+	    | <%= pluralize @question.reputation_for(:votes).to_i, "vote" %>
+	    <% if signed_in? && !current_user?(@question.user) %>
+          | <%= link_to "up", vote_question_path(@question, type: "up"), method: "post" %>
+          | <%= link_to "down", vote_question_path(@question, type: "down"), method: "post" %>
+        <% end %>
 	  </p>
 	</div>
 
@@ -21,7 +26,7 @@
 	<% if @question.answers.any? %>
 	  <h3><%= pluralize(@question.answers.count, "Answer") %></h3>
 	  <ol class="answers">
-	    <%= render @answers, content: true, user: true %>
+	    <%= render @answers, content: true, user: true, vote: true %>
 	  </ol>
 	  <%= will_paginate @answers %>
 	<% end %>

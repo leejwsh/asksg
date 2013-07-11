@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
-  before_filter :signed_in_user, only: [:new, :create, :destroy]
+  before_filter :signed_in_user, only: [:new, :create, :destroy, :vote]
+  before_filter :not_own_question, only: [:vote]
 
   def new
     @question = Question.new
@@ -17,10 +18,23 @@ class QuestionsController < ApplicationController
 
   def show
     @question = Question.find(params[:id])
-    @answers = @question.answers.paginate(page: params[:page])
+    @answers = @question.answers.paginate(page: params[:page]).most_voted
     @answer = @question.answers.build if signed_in?
   end
 
   def destroy
   end
+
+  def vote
+    value = params[:type] == "up" ? 1 : -1
+    @question.add_or_update_evaluation(:votes, value, current_user)
+    redirect_to :back, notice: "Thank you for voting"
+  end
+
+  private
+
+    def not_own_question
+      @question = Question.find(params[:id])
+      redirect_to(root_path) if current_user?(@question.user)
+    end
 end

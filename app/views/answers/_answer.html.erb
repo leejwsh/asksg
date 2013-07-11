@@ -1,5 +1,10 @@
-<% # Usage: render @answers, bool title, bool content, bool user %>
-<% # E.g. : render @answers, user: true                          %>
+<% # Usage: render @answers, show flags %>
+<% # E.g. : render @answers, user: true %>
+<% # List of flags: %>
+<% #   - title      %>
+<% #   - content    %>
+<% #   - user       %>
+<% #   - vote       %>
 
 <li>
   <span class="content">
@@ -9,5 +14,10 @@
   <span class="timestamp">
     <%= link_to answer.user.name, answer.user if defined? user %>
     answered <%= time_ago_in_words(answer.created_at) %> ago.
+    | <%= pluralize answer.reputation_for(:votes).to_i, "vote" %>
+    <% if signed_in? && defined?(vote) && !current_user?(answer.user) %>
+      | <%= link_to "up", vote_answer_path(answer, type: "up"), method: "post" %>
+      | <%= link_to "down", vote_answer_path(answer, type: "down"), method: "post" %>
+    <% end %>
   </span>
 </li>

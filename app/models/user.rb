@@ -17,6 +17,9 @@ class User < ActiveRecord::Base
   has_many :questions, dependent: :destroy
   has_many :answers,   dependent: :destroy
 
+  has_reputation :questioning_skill, source: { reputation: :votes, of: :questions }
+  has_reputation :answering_skill, source: { reputation: :votes, of: :answers }
+
   before_save { email.downcase! }
   before_save :create_remember_token
 
@@ -28,6 +31,14 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
   after_validation { self.errors.messages.delete(:password_digest) }
+
+  def reputation
+    reputation_for(:questioning_skill).to_i + reputation_for(:answering_skill).to_i
+  end
+
+  def votes_cast
+    Question.evaluated_by(:votes, self).count + Answer.evaluated_by(:votes, self).count
+  end
 
   private
 

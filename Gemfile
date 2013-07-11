@@ -7,6 +7,7 @@ gem 'faker', '1.0.1'
 gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'acts-as-taggable-on', '2.4.1'
+gem 'activerecord-reputation-system', '2.0.2', require: 'reputation_system'
 
 group :development, :test do
   gem 'sqlite3', '1.3.5'

@@ -3,8 +3,12 @@ Asksg::Application.routes.draw do
 
   resources :users
   resources :sessions,  only: [:new, :create, :destroy]
-  resources :answers,  only: [:create, :destroy]
-  resources :questions
+  resources :answers, only: [:create, :destroy] do
+    member { post :vote }
+  end
+  resources :questions do
+    member { post :vote }
+  end
 
   root to: 'static_pages#home'
 
