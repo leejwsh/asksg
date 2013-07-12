@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
 
   has_reputation :questioning_skill, source: { reputation: :votes, of: :questions }
   has_reputation :answering_skill, source: { reputation: :votes, of: :answers }
+  has_reputation :reputation, source: [{ reputation: :votes, of: :questions },
+                                       { reputation: :votes, of: :answers }]
 
   before_save { email.downcase! }
   before_save :create_remember_token
@@ -33,11 +35,15 @@ class User < ActiveRecord::Base
   after_validation { self.errors.messages.delete(:password_digest) }
 
   def reputation
-    reputation_for(:questioning_skill).to_i + reputation_for(:answering_skill).to_i
+    reputation_for(:reputation).to_i
   end
 
   def votes_cast
     Question.evaluated_by(:votes, self).count + Answer.evaluated_by(:votes, self).count
+  end
+
+  def self.most_reputation
+    find_with_reputation(:reputation, :all, { order: 'reputation DESC' })
   end
 
   private
