@@ -10,7 +10,7 @@
 	    <strong>Hashtags: </strong>
 	    <%= raw @question.tag_list.map { |t| link_to "##{t}", tag_path(t) }.join(' ') %>
 	  </p>
-	  <p>
+	  <span class="timestamp">
 	    <%= link_to @question.user.name, @question.user %> 
 	    asked <%= time_ago_in_words(@question.created_at) %> ago.
 	    | <%= pluralize @question.reputation_for(:votes).to_i, "vote" %>
@@ -18,7 +18,7 @@
           | <%= link_to "up", vote_question_path(@question, type: "up"), method: "post" %>
           | <%= link_to "down", vote_question_path(@question, type: "down"), method: "post" %>
         <% end %>
-	  </p>
+	  </span>
 	</div>
 
 	<hr>

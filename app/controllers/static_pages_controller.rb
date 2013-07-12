@@ -5,6 +5,7 @@ class StaticPagesController < ApplicationController
   	  @questions = Question.tagged_with(params[:tag]).paginate(page: params[:page])
   	else
   	  @questions = Question.paginate(page: params[:page])
+  	  @users = User.paginate(page: params[:page]).most_reputation
   	end
   end
 

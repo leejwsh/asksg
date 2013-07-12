@@ -1,0 +1,12 @@
+<li>
+  <span class="content">
+    <%= link_to user.name, user %>
+    <br>
+    <%= link_to user.reputation, '#' %> reputation
+    | <%= pluralize(user.questions.count, 'question') %>
+    | <%= pluralize(user.answers.count, 'answer') %>
+  </span>
+  <span class="timestamp">
+    Joined since <%= user.created_at.strftime("%B %Y") %>.
+  </span>
+</li>
