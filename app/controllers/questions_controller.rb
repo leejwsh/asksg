@@ -27,6 +27,12 @@ class QuestionsController < ApplicationController
 
   def vote
     value = params[:type] == "up" ? 1 : -1
+
+    # Undo question vote.
+    eval = @question.evaluations.where(reputation_name: :votes,
+                                       target_id: @question.id).first
+    value = 0 if eval.value == value
+
     @question.add_or_update_evaluation(:votes, value, current_user)
     redirect_to :back, notice: "Thank you for voting"
   end

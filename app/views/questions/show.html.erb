@@ -14,10 +14,27 @@
 	    <%= link_to @question.user.name, @question.user %> 
 	    asked <%= time_ago_in_words(@question.created_at) %> ago.
 	    | <%= pluralize @question.reputation_for(:votes).to_i, "vote" %>
+
+	    <!-- Display voting buttons. -->
 	    <% if signed_in? && !current_user?(@question.user) %>
-          | <%= link_to "up", vote_question_path(@question, type: "up"), method: "post" %>
-          | <%= link_to "down", vote_question_path(@question, type: "down"), method: "post" %>
+
+	      <!-- Bold user vote. -->
+	      <% eval = @question.evaluations.where(reputation_name: :votes,
+                                                target_id: @question.id).first %>
+          <% if eval.present? && eval.value > 0 %>
+             <strong>
+          <% end %>
+          | <%= link_to "up",
+                        vote_question_path(@question, type: "up"),
+                        method: "post" %></strong>
+          <% if eval.present? && eval.value < 0 %>
+             <strong>
+          <% end %>
+          | <%= link_to "down",
+                        vote_question_path(@question, type: "down"),
+                        method: "post" %>
         <% end %>
+
 	  </span>
 	</div>
 
