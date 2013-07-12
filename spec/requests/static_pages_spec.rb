@@ -8,7 +8,7 @@ describe "Static Pages" do
     before { visit root_path }
 
     it { should have_selector('title', text: full_title) }
-    it { should have_selector('h1',    text: APP_CONFIG['site_name']) }
+    #it { should have_selector('h1',    text: APP_CONFIG['site_name']) }
   end
 
   describe "About page" do
@@ -24,7 +24,8 @@ describe "Static Pages" do
     page.should have_selector 'title', text: full_title('About')
     click_link "Sign up"
     page.should have_selector 'title', text: full_title('Sign up')
-    click_link full_title('')
-    page.should have_selector 'h1', text: APP_CONFIG['site_name']
+    click_link APP_CONFIG['site_name']
+    #page.should have_selector 'h1', text: APP_CONFIG['site_name']
+    page.should have_selector 'title', text: /^#{APP_CONFIG['site_name']}$/
   end  
 end

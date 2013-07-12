@@ -6,8 +6,11 @@ describe "User pages" do
 
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
-    let!(:q1) { FactoryGirl.create(:question, user: user, content: "Foo") }
-    let!(:q2) { FactoryGirl.create(:question, user: user, content: "Bar") }
+    let!(:q1) { FactoryGirl.create(:question, user: user, title: "Foo") }
+    let!(:q2) { FactoryGirl.create(:question, user: user, title: "Bar") }
+    let!(:q3) { FactoryGirl.create(:question, user: user, title: "Baz") }
+    let!(:a1) { FactoryGirl.create(:answer, user: user, question: q1) }
+    let!(:a2) { FactoryGirl.create(:answer, user: user, question: q2) }
 
     before { visit user_path(user) }
 
@@ -15,9 +18,16 @@ describe "User pages" do
     it { should have_selector('title', text: full_title(user.name)) }
 
     describe "questions" do
-      it { should have_content(q1.content) }
-      it { should have_content(q2.content) }
+      it { should have_content(q1.title) }
+      it { should have_content(q2.title) }
+      it { should have_content(q3.title) }
       it { should have_content(user.questions.count) }
+    end
+
+    describe "answers" do
+      it { should have_content(a1.question.title) }
+      it { should have_content(a2.question.title) }
+      it { should have_content(user.answers.count) }
     end
   end
 

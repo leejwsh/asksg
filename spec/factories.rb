@@ -7,7 +7,14 @@ FactoryGirl.define do
   end
 
   factory :question do
-    content "Lorem ipsum"
+    title "Lorem ipsum"
+    content "This is a question."
     user
+  end
+
+  factory :answer do
+    content "This is an answer."
+    user
+    question
   end
 end

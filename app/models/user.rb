@@ -33,6 +33,13 @@ class User < ActiveRecord::Base
   after_validation { self.errors.messages.delete(:password_digest) }
 
   def reputation
+    # This is a hack, since
+    #
+    # has_reputation :karma, source: [{ reputation: :questioning_skill },
+    #                                 { reputation: :answering_skill }]
+    # reputation_for(:karma)
+    #
+    # is bugged.
     reputation_for(:questioning_skill).to_i + reputation_for(:answering_skill).to_i
   end
 
