@@ -29,7 +29,7 @@ class AnswersController < ApplicationController
     # Undo answer vote.
     eval = @answer.evaluations.where(reputation_name: :votes,
                                      target_id: @answer.id).first
-    value = 0 if eval.value == value
+    value = 0 if (eval.present? && eval.value == value)
 
     @answer.add_or_update_evaluation(:votes, value, current_user)
     redirect_to :back, notice: "Thank you for voting"

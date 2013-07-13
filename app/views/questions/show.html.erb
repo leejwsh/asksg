@@ -41,7 +41,8 @@
       <!-- Display edit and delete buttons. -->
       <% if current_user?(@question.user) %>
         | <%= link_to "edit", '#' %>
-        | <%= link_to "delete", @question, method: :delete, data: { confirm: "Are you sure?" } %>
+        | <%= link_to "delete", '#' %>
+        <!--#@question, method: :delete, data: { confirm: "Are you sure?" }-->
       <% end %>
 	</div>
 
