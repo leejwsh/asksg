@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
   before_filter :signed_in_user
   before_filter :not_own_answer, only: [:vote]
+  before_filter :correct_user,   only: [:destroy]
 
   def create
   	@question = Question.find(params[:answer][:question_id])
@@ -10,12 +11,15 @@ class AnswersController < ApplicationController
       flash[:success] = "Answer posted!"
       redirect_to question_path(@question)
     else
-       @answers = @question.answers.paginate(page: params[:page])
-       render "questions/show"
+      @answers = @question.answers.paginate(page: params[:page]).most_voted
+      render "questions/show"
     end
   end
 
   def destroy
+    @answer.destroy
+    flash[:success] = "Answer deleted!"
+    redirect_to question_path(@answer.question)
   end
 
   def vote
@@ -36,5 +40,10 @@ class AnswersController < ApplicationController
     def not_own_answer
       @answer = Answer.find(params[:id])
       redirect_to(root_path) if current_user?(@answer.user)
+    end
+
+    def correct_user
+      @answer = current_user.answers.find_by_id(params[:id])
+      redirect_to root_url if @answer.nil?
     end
 end

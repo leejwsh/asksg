@@ -126,6 +126,8 @@ describe "Authentication" do
     describe "as wrong user" do
       let(:user) { FactoryGirl.create(:user) }
       let(:wrong_user) { FactoryGirl.create(:user, email: "wrong@example.com") }
+      let!(:question) { FactoryGirl.create(:question, user: wrong_user) }
+      let!(:answer) { FactoryGirl.create(:answer, user: wrong_user, question: question) }
       before { sign_in user }
 
       describe "visiting Users#edit page" do
@@ -135,6 +137,16 @@ describe "Authentication" do
 
       describe "submitting a PUT request to the Users#update action" do
         before { put user_path(wrong_user) }
+        specify { response.should redirect_to(root_path) }
+      end
+
+      describe "submitting a DELETE request to the Questions#destroy action" do
+        before { delete question_path(question) }
+        specify { response.should redirect_to(root_path) }
+      end
+
+      describe "submitting a DELETE request to the Answers#destroy action" do
+        before { delete answer_path(answer) }
         specify { response.should redirect_to(root_path) }
       end
     end

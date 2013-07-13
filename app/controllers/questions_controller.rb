@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
-  before_filter :signed_in_user, only: [:new, :create, :destroy, :vote]
+  before_filter :signed_in_user,   only: [:new, :create, :destroy, :vote]
   before_filter :not_own_question, only: [:vote]
+  before_filter :correct_user,     only: [:destroy]
 
   def new
     @question = Question.new
@@ -23,6 +24,9 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    @question.destroy
+    flash[:success] = "Question deleted!"
+    redirect_to root_url
   end
 
   def vote
@@ -42,5 +46,10 @@ class QuestionsController < ApplicationController
     def not_own_question
       @question = Question.find(params[:id])
       redirect_to(root_path) if current_user?(@question.user)
+    end
+
+    def correct_user
+      @question = current_user.questions.find_by_id(params[:id])
+      redirect_to root_url if @question.nil?
     end
 end

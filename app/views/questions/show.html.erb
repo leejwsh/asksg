@@ -37,6 +37,12 @@
                       vote_question_path(@question, type: "down"),
                       method: "post" %>
       <% end %>
+
+      <!-- Display edit and delete buttons. -->
+      <% if current_user?(@question.user) %>
+        | <%= link_to "edit", '#' %>
+        | <%= link_to "delete", @question, method: :delete, data: { confirm: "Are you sure?" } %>
+      <% end %>
 	</div>
 
 	<hr>
@@ -53,7 +59,7 @@
 
     <% if signed_in? %>
       <h3>Your Answer</h2>
-	  <%= form_for(@answer) do |f| %>
+	    <%= form_for(@answer) do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
 
         <%= f.hidden_field :question_id, :value => @question.id %> 

@@ -48,4 +48,20 @@ describe Question do
     before { @question.content = " " }
     it { should_not be_valid }
   end
+
+  describe "answer associations" do
+
+    before { @question.save }
+    let!(:a1) { FactoryGirl.create(:answer, user: user, question: @question) }
+    let!(:a2) { FactoryGirl.create(:answer, user: user, question: @question) }
+
+    it "should destroy associated answers" do
+      answers = @question.answers.dup
+      @question.destroy
+      answers.should_not be_empty
+      answers.each do |answer|
+        Answer.find_by_id(answer.id).should be_nil
+      end
+    end
+  end
 end

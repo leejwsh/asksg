@@ -39,11 +39,9 @@
                   method: "post" %></strong>
   <% end %>
 
-<!--
-  < Display delete button. >
+  <!-- Display edit and delete buttons. -->
   <% if current_user?(answer.user) %>
-    | <%= link_to "delete", answer, method: :delete,
-                                    data: { confirm: "Are you sure?" } %>
+    | <%= link_to "edit", '#' %>
+    | <%= link_to "delete", answer, method: :delete, data: { confirm: "Are you sure?" } %>
   <% end %>
--->
 </li>
