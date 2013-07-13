@@ -7,13 +7,14 @@ FactoryGirl.define do
   end
 
   factory :question do
-    title "Lorem ipsum"
-    content "This is a question."
+    sequence(:title)   { |n| "Lorem ipsum #{n}" }
+    sequence(:content) { |n| "This is question #{n}." }
+    tag_list "#chinese #english #math"
     user
   end
 
   factory :answer do
-    content "This is an answer."
+    sequence(:content) { |n| "This is answer #{n}." }
     user
     question
   end

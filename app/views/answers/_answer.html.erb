@@ -14,27 +14,36 @@
   <span class="timestamp">
     <%= link_to answer.user.name, answer.user if defined? user %>
     answered <%= time_ago_in_words(answer.created_at) %> ago.
-    | <%= pluralize answer.reputation_for(:votes).to_i, "vote" %>
-
-    <!-- Display voting buttons. -->
-    <% if signed_in? && defined?(vote) && !current_user?(answer.user) %>
-
-      <!-- Bold user vote. -->
-      <% eval = answer.evaluations.where(reputation_name: :votes,
-                                         target_id: answer.id).first %>
-      <% if eval.present? && eval.value > 0 %>
-        <strong>
-      <% end %>
-      | <%= link_to "up",
-                    vote_answer_path(answer, type: "up"),
-                    method: "post" %></strong>
-      <% if eval.present? && eval.value < 0 %>
-        <strong>
-      <% end %>
-      | <%= link_to "down",
-                    vote_answer_path(answer, type: "down"),
-                    method: "post" %></strong>
-    <% end %>
-
   </span>
+
+  <!-- Display votes. -->
+  | <%= pluralize answer.reputation_for(:votes).to_i, "vote" %>
+
+  <!-- Display voting buttons. -->
+  <% if signed_in? && defined?(vote) && !current_user?(answer.user) %>
+
+    <!-- Bold user vote. -->
+    <% eval = answer.evaluations.where(reputation_name: :votes,
+                                       target_id: answer.id).first %>
+    <% if eval.present? && eval.value > 0 %>
+      <strong>
+    <% end %>
+    | <%= link_to "up",
+                  vote_answer_path(answer, type: "up"),
+                  method: "post" %></strong>
+    <% if eval.present? && eval.value < 0 %>
+      <strong>
+    <% end %>
+    | <%= link_to "down",
+                  vote_answer_path(answer, type: "down"),
+                  method: "post" %></strong>
+  <% end %>
+
+<!--
+  < Display delete button. >
+  <% if current_user?(answer.user) %>
+    | <%= link_to "delete", answer, method: :delete,
+                                    data: { confirm: "Are you sure?" } %>
+  <% end %>
+-->
 </li>

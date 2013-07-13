@@ -16,6 +16,6 @@
   <span class="timestamp">
     <%= link_to question.user.name, user_path(question.user) if defined? user %>
     asked <%= time_ago_in_words(question.created_at) %> ago.
-    | <%= pluralize question.reputation_for(:votes).to_i, "vote" %>
   </span>
+  | <%= pluralize question.reputation_for(:votes).to_i, "vote" %>
 </li>
