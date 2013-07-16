@@ -28,6 +28,7 @@ class AnswersController < ApplicationController
 
     # Undo answer vote.
     eval = @answer.evaluations.where(reputation_name: :votes,
+                                     source_id: current_user.id,
                                      target_id: @answer.id).first
     value = 0 if (eval.present? && eval.value == value)
 

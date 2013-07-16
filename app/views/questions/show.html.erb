@@ -23,6 +23,7 @@
 
         <!-- Bold user vote. -->
         <% eval = @question.evaluations.where(reputation_name: :votes,
+                                              source_id: current_user.id,
                                               target_id: @question.id).first %>
         <% if eval.present? && eval.value > 0 %>
           <strong>
@@ -35,7 +36,7 @@
         <% end %>
         | <%= link_to "down",
                       vote_question_path(@question, type: "down"),
-                      method: "post" %>
+                      method: "post" %></strong>
       <% end %>
 
       <!-- Display edit and delete buttons. -->

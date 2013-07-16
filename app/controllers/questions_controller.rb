@@ -34,6 +34,7 @@ class QuestionsController < ApplicationController
 
     # Undo question vote.
     eval = @question.evaluations.where(reputation_name: :votes,
+                                       source_id: current_user.id,
                                        target_id: @question.id).first
     value = 0 if (eval.present? && eval.value == value)
 

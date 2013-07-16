@@ -24,6 +24,7 @@
 
     <!-- Bold user vote. -->
     <% eval = answer.evaluations.where(reputation_name: :votes,
+                                       source_id: current_user.id,
                                        target_id: answer.id).first %>
     <% if eval.present? && eval.value > 0 %>
       <strong>
