@@ -36,10 +36,13 @@ class QuestionsController < ApplicationController
     eval = @question.evaluations.where(reputation_name: :votes,
                                        source_id: current_user.id,
                                        target_id: @question.id).first
-    value = 0 if (eval.present? && eval.value == value)
-
-    @question.add_or_update_evaluation(:votes, value, current_user)
-    redirect_to :back, notice: "Thank you for voting"
+    if (eval.present? && eval.value == value)
+      @question.delete_evaluation(:votes, current_user)
+      redirect_to :back, notice: "Vote retracted"
+    else
+      @question.add_or_update_evaluation(:votes, value, current_user)
+      redirect_to :back, notice: "Thank you for voting"
+    end
   end
 
   private
