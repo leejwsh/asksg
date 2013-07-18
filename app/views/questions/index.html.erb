@@ -1,0 +1,18 @@
+<% if params[:search] %>
+  <p>
+  	<%= pluralize @questions.total_entries, 'result' %>
+  	for
+  	<strong><em>'<%= params[:search].split.uniq.join('+') %>'</em></strong>
+  </p>
+<% end %>
+
+<div class="row">
+  <div class="span12">
+	<% if @questions.any? %>
+	  <ol class="questions">
+	    <%= render @questions, user: true %>
+	  </ol>
+	  <%= will_paginate @questions %>
+	<% end %>
+  </div>
+</div>

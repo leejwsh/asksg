@@ -3,6 +3,10 @@ class QuestionsController < ApplicationController
   before_filter :not_own_question, only: [:vote]
   before_filter :correct_user,     only: [:destroy]
 
+  def index
+    @questions = Question.paginate(page: params[:page]).search(params[:search])
+  end
+
   def new
     @question = Question.new
   end
