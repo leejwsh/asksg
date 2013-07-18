@@ -9,4 +9,8 @@ module ApplicationHelper
       "#{base_title} | #{page_title}"
     end
   end
+
+  def format_text(content)
+    simple_format(auto_link(content))
+  end
 end

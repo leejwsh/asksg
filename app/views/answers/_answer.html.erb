@@ -9,7 +9,7 @@
 <li>
   <span class="content">
   	<%= link_to answer.question.title, answer.question if defined? title %> 
-  	<%= simple_format(answer.content) if defined? content %>
+  	<%= format_text(answer.content) if defined? content %>
   </span>
   <span class="timestamp">
     <%= link_to answer.user.name, answer.user if defined? user %>

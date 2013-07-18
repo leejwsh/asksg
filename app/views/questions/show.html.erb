@@ -5,7 +5,7 @@
   <div class="span12">
 	
 	<div class="well">
-	  <p><%= simple_format(@question.content) %></p>
+	  <p><%= format_text(@question.content) %></p>
 	  <p>
 	    <strong>Hashtags: </strong>
 	    <%= raw @question.tag_list.map { |t| link_to "##{t}", tag_path(t) }.join(' ') %>
